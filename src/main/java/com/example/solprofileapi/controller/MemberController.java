@@ -38,4 +38,11 @@ public class MemberController {
         ResponseEntity<MemberReadResponseDto> readResponse = new ResponseEntity<>(readResponseDto, HttpStatus.OK);
         return readResponse;
     }
+
+    // 예외 처리
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleException(IllegalStateException e) {
+        log.error("[API - ERROR] {}", e.getMessage(), e);
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }
