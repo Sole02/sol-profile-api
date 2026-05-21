@@ -12,6 +12,7 @@ public class Member {
     private String name;
     private int age;
     private String mbti;
+    private String profileImageUrl;
 
     public Member() {}
 
@@ -32,5 +33,12 @@ public class Member {
     }
     public String getMbti() {
         return mbti;
+    }
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
