@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/members")
@@ -44,5 +45,23 @@ public class MemberController {
     public ResponseEntity<String> handleException(IllegalStateException e) {
         log.error("[API - ERROR] {}", e.getMessage(), e);
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    // 프로필 사진 업로드
+    @PostMapping("/{memberId}/profile-image")
+    public ResponseEntity<String> uploadProfileImage(@PathVariable Long memberId, @RequestParam("image") MultipartFile image) {
+        log.info("[API - LOG] POST", memberId);
+        String imageUrl = memberService.uploadProfileImage(memberId, image);
+        ResponseEntity<String> uploadResponse = new ResponseEntity<>(imageUrl, HttpStatus.CREATED);
+        return uploadResponse;
+    }
+
+    // 프로필 사진 조회
+    @GetMapping("/{memberId}/profile-image")
+    public ResponseEntity<String> readProfileImage(@PathVariable Long memberId) {
+        log.info("[API - LOG] GET", memberId);
+        String readUrl = memberService.readProfileUrl(memberId);
+        ResponseEntity<String> getResponse = new ResponseEntity<>(readUrl, HttpStatus.OK);
+        return getResponse;
     }
 }
